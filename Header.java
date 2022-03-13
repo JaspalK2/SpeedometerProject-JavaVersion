@@ -1,4 +1,12 @@
 import java.util.*;  
+import edu.princeton.cs.algs4.LinearRegression;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
 
 public class Header {
     private boolean mIsFast = false;
@@ -38,7 +46,9 @@ public class Header {
     public double return_percent(){
         return mPercent;
     }
+
     public void arrayMaker(){
+        MemoryGameGUI x = new MemoryGameGUI();
         System.out.println("");
         System.out.println("");
         System.out.println("");
@@ -46,9 +56,12 @@ public class Header {
         System.out.println("");
         System.out.println("");
         System.out.println("");
+/*
         System.out.println("                                     CATEGORY: DATA VALUES                       ");
         System.out.println(" --------------------------------------------------------------------------------------------");
-        System.out.println(" --------------------------------------------------------------------------------------------");
+        System.out.println(" --------------------------------------------------------------------------------------------");*/
+        x.stateCat();
+
         int z = mNumValues ;
        // calculator x = new calculator();
         Double[] speed = new Double[z];
@@ -67,12 +80,16 @@ public class Header {
             
             int value = 0;
             Scanner sc= new Scanner(System.in);
-          System.out.println("                                    enter data value [" + number_counter + "]");
+            
+          /*System.out.println("                                    enter data value [" + number_counter + "]");
             
             number_counter+=1;
             value = sc.nextInt();
             System.out.println(" --------------------------------------------------------------------------------------------");
-            
+            */
+           
+            value = x.dataVal(number_counter);
+            number_counter+=1;
             speed[i] += value;
             i++;
             value++;
@@ -92,19 +109,22 @@ public class Header {
         System.out.println("");
         System.out.println("");
         System.out.println("");
-        System.out.println("");
+        System.out.println("");/*
         System.out.println("                                     CATEGORY: SPEED LIMITS                     ");
         System.out.println(" --------------------------------------------------------------------------------------------");
-        System.out.println(" --------------------------------------------------------------------------------------------");
+        System.out.println(" --------------------------------------------------------------------------------------------");*/
+        x.stateCat2();
         int counter = 0;
         if (p == "yes"){
     
-            System.out.println("                       How many speed limit changes where there?:");
+            /*System.out.println("                       How many speed limit changes where there?:");
           
             Scanner sc= new Scanner(System.in);
             int n;
             n = sc.nextInt();
-            System.out.println(" --------------------------------------------------------------------------------------------");
+            System.out.println(" --------------------------------------------------------------------------------------------");*/
+            int n = x.dataValSpeedAmount();
+
             Double[] array = new Double[n];
             boolean b = true;
             int count = 0;
@@ -116,6 +136,7 @@ public class Header {
                     while(b == true){
                 Double speed_limit;
                 Double duration;
+                /*
                 System.out.println("                       What was the speed limit:");
                 Scanner sc2= new Scanner(System.in);
                 
@@ -127,6 +148,10 @@ public class Header {
                 
                 duration = (double) sc3.nextInt();
                      System.out.println(" --------------------------------------------------------------------------------------------");
+                     */
+
+                speed_limit =(double) x.dataValSpeed();
+                duration = (double) x.dataValSpeedDuration();
                 durationarray[count] = duration;
                 count++;
                 array[counter] = speed_limit;
@@ -165,9 +190,9 @@ public class Header {
             }
             
             
-            mIdealSpeed  = idealSpeed;
+            mIdealSpeed  = idealSpeed;/*
             System.out.println(" --------------------------------------------------------------------------------------------");
-            System.out.println(" --------------------------------------------------------------------------------------------");
+            System.out.println(" --------------------------------------------------------------------------------------------");*/
         }
     }
     public void AverageEvaluator(){
@@ -203,6 +228,7 @@ public class Header {
         
     }
     public void EndResult(){
+        MemoryGameGUI y = new MemoryGameGUI();
         System.out.println("");
         System.out.println("");
         System.out.println("");
@@ -210,9 +236,11 @@ public class Header {
         System.out.println("");
         System.out.println("");
         System.out.println("");
+        y.stateCat3();
+        /*
         System.out.println("                                     CATEGORY: END RESULT                    ");
         System.out.println(" --------------------------------------------------------------------------------------------");
-        System.out.println(" --------------------------------------------------------------------------------------------");
+        System.out.println(" --------------------------------------------------------------------------------------------");*/
         double percent = mPercent;
         if (percent  > 100){
             double c = percent -100;
@@ -248,9 +276,11 @@ public class Header {
         else{
             end_result = "You could actually end up saving almost $";
         }
-        System.out.println("The end result is that you had an average speed of "+average_speed+" MPH, and the recommended speed for ideal \n"+
+        String endResult = "The end result is that you had an average speed of "+average_speed+" MPH, and the recommended speed for ideal \n"+
         "gas mileage is about "+mIdealSpeed+"MPH. This leaves you with an overall fuel efficiency of about "+percent+"%. \n"
-        +end_result+" "+x);
+        +end_result+" "+x;
+        y.stateEndResult(endResult);
+        
     }
 }
 

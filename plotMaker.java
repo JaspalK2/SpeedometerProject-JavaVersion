@@ -98,47 +98,27 @@ public class plotMaker extends Application {
    * 
    */
     public static void main(String[] args) {
-        System.out.println("  //=======================================================================================\\");
-        System.out.println("  ||                                      Speedomter Project                               || ");
-        System.out.println("  //=======================================================================================\\");
+        MemoryGameGUI GUI = new MemoryGameGUI();
+        GUI.SpeedmeterProject();
+        
         
         Header miles = new Header();
         //
         int n;
         int lenght;
-        System.out.println("");
-        System.out.println("");
-        System.out.println(" --------------------------------------------------------------------------------------------");
-    
-        System.out.println("                        How long was your drive?(in minutes):\n"+
-        "                                                   ");
         
-        Scanner sc2= new Scanner(System.in);
-                
-        lenght =  sc2.nextInt();
+        lenght =  GUI.DriveDuration();
+        
+         
+         
        
-        System.out.println(" --------------------------------------------------------------------------------------------");
         n = lenght;
-        //cout+"  -------------------------------------------------------------------------------------------"+endl;
-       
-        System.out.println("                        How many times do you think you visit a gas station per week?\n"+
-        "                                                   ");
         
         Double x;
-        Scanner sc3= new Scanner(System.in);
-                
-        x =  (double) sc3.nextInt();
-        System.out.println(" --------------------------------------------------------------------------------------------");
+        x = (double) GUI.GasStationVists();
+       
+       
         x= x*52.0;
-     
-        System.out.println(" --------------------------------------------------------------------------------------------");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-
         miles.setGasStation(x/5);
         
         miles.setNumValues(n);
@@ -158,18 +138,20 @@ public class plotMaker extends Application {
         System.out.println("");
         System.out.println("");
         System.out.println("");
-
+        
+        String response = GUI.additionalSet();
+        /*
         System.out.println(" --------------------------------------------------------------------------------------------");
         System.out.println("                       Do you have an additional data set?(y/n): \n"+
-        "                                                   ");
+        "                                                   ");*/
 
-        String s;
-        Scanner sc4= new Scanner(System.in);
+     
+      
                 
-        s =   sc4.nextLine();
        
-        System.out.println(" --------------------------------------------------------------------------------------------");
-        if (s.equals( "y")){
+       
+       
+        if (response.equals( "y")){
             condition  =true;
         }
         else{
@@ -188,37 +170,18 @@ public class plotMaker extends Application {
             int n2;
             int lenght2;
             System.out.println("");
-            System.out.println("");
-            System.out.println(" --------------------------------------------------------------------------------------------");
-        
-            System.out.println("                        How long was your drive?(in minutes):\n"+
-            "                                                   ");
-            
-            Scanner sc5= new Scanner(System.in);
-                    
-            lenght2 =  sc5.nextInt();
+           lenght2 =  GUI.DriveDuration();
+       
+          
            
-            System.out.println(" --------------------------------------------------------------------------------------------");
+           
             n2 = lenght2;
-            //cout+"  -------------------------------------------------------------------------------------------"+endl;
-           
-            System.out.println("                        How many times do you think you visit a gas station per week?\n"+
-            "                                                   ");
-            
             Double x2;
-            Scanner sc6= new Scanner(System.in);
+            //cout+"  -------------------------------------------------------------------------------------------"+endl;
+           x2 = (double) GUI.GasStationVists();
+          
                     
-            x2 =  (double) sc6.nextInt();
-            System.out.println(" --------------------------------------------------------------------------------------------");
-            x2= x2*52.0;
-         
-            System.out.println(" --------------------------------------------------------------------------------------------");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
+            
     
             miles2.setGasStation(x2/5);
             
@@ -231,14 +194,10 @@ public class plotMaker extends Application {
             data[counter] = new_data;
             data1[counter] = new_data1;
             counter++;
-            System.out.println("                        Do you have an Additional Data Set?(y/n): :\n"+
-            "                                                   ");
-            String s2;
-            Scanner sc7= new Scanner(System.in);
-                    
-            s2 =  sc7.nextLine();
+            String response2 = GUI.additionalSet();
+            
            
-            if (s2== "y"){
+            if (response2.equals("y")){
                 condition  =true;
             }
             else{
@@ -307,15 +266,12 @@ public class plotMaker extends Application {
             }
             CorrelationCalculator trial = new CorrelationCalculator();
             String choice;
-            System.out.println("                       See Data Points before conclusion(y/n): \n"+
-            "                                                   ");
-            Scanner sc8= new Scanner(System.in);
-                
-            choice =  sc8.nextLine();
+           
+            choice = GUI.seeData();
            
             if(choice.equals("y")){
-                System.out.println(" ----------------------------");
-                    System.out.println("            x     ,     y");
+             
+                
                 int[][] mutliArr = new int [counter][2];
                 // { , }, { , }
                 int yiteration = 0;
@@ -328,8 +284,8 @@ public class plotMaker extends Application {
                 }
                 Percent = mutliArr;
                 for(int i = 0; i < counter; i++){
+                    GUI.DataDisplay(i+1, mutliArr[i][0], mutliArr[i][1]);
                     
-                    System.out.println(" Data value #"+(i+1)+": "+"["+ mutliArr[i][0] +","+ mutliArr[i][1] +"]");
                 }
             }
             double z = trial.Correlation(x1, newintarray);
@@ -353,9 +309,10 @@ public class plotMaker extends Application {
          
             System.out.println(" --------------------------------------------------------------------------------------------");
             System.out.println(" --------------------------------------------------------------------------------------------");
-            System.out.println("Total amount of money that could have been saved: "+total_amount1+". You had an average percent accuraccy of "+    total_amount / counter+", your highest percent \n"+
-            "accuracy was drive #"+data_set+1+", and the value was  "+current+"%"+
+           String end =("Total amount of money that could have been saved: $"+total_amount1+". You had an average percent accuraccy of "+    total_amount / counter+"%, your highest percent \n"+
+            "accuracy was drive #"+(data_set)+", and the value was  "+current+"%"+
             ". Additionally, the correlation of the data for the data sets came out to be: "+z+". This would suggest that "+end_result);
+            GUI.finalResult(end);
             num = counter;
         }
         double[] xAxis = new double[counter];
