@@ -50,6 +50,7 @@ public class Header {
         System.out.println(" --------------------------------------------------------------------------------------------");
         System.out.println(" --------------------------------------------------------------------------------------------");
         int z = mNumValues ;
+       // calculator x = new calculator();
         Double[] speed = new Double[z];
         boolean left = true;
         int i = 0;
