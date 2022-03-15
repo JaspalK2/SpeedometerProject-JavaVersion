@@ -6,18 +6,73 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Scanner;
+import java.io.File;
+import java.util.Scanner;
+
+import java.io.IOException;
 import java.util.*;  
  
  
 public class plotMaker extends Application {
-   
+   public static int[][] textArr;
     public static int[][] Percent;
+    public static int[][] finalArr; 
     public static int num;
 
     public static Double num2;
     public static double intercept;
     public static double slope;
-
+    public static int isolateNum(String s, int j){
+        String total = "";
+        boolean case2 = false;
+        if(j ==0){
+          case2 = true;
+        }
+        int index;
+        if(case2){
+      
+          
+          
+           
+              index = 0;
+              while(!s.substring(index,index+1).equals(",")){
+                   if(Character.isDigit(s.charAt(index))){
+                      total+=s.substring(index, index+1);
+                   }
+                   index++;
+    
+              }
+              
+            
+         
+        
+      }
+      if(!case2){
+       
+          
+          
+         
+            index = 7;
+            while(!s.substring(index,index+1).equals(",")){
+                 if(Character.isDigit(s.charAt(index))){
+                    total+=s.substring(index, index+1);
+                 }
+                 index++;
+    
+            }
+      
+      }
+    
+       int num = Integer.parseInt(total);
+        return num;
+      }
     /**
    * takes in two lists to determine the overall correlation that the player had throughout the rounds based on their score vs rounds
    * @param xs will store the x array of values
@@ -61,7 +116,7 @@ public class plotMaker extends Application {
       @Override public void start(Stage stage) {
         
         stage.setTitle("Scatter Chart Sample");
-        final NumberAxis xAxis = new NumberAxis(0, num*2, 1);
+        final NumberAxis xAxis = new NumberAxis(0, 10, 1);
         final NumberAxis yAxis = new NumberAxis(0, 100, 1);        
         final ScatterChart<Number,Number> sc = new
             ScatterChart<Number,Number>(xAxis,yAxis);
@@ -73,16 +128,17 @@ public class plotMaker extends Application {
        
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Total Score Vs. Total Round Points");
-        for(int i = 0; i<num; i++){
-            series1.getData().add(new XYChart.Data(Percent[i][0], Percent[i][1]));
+        for(int i = 0; i<finalArr.length; i++){
+            series1.getData().add(new XYChart.Data(finalArr[i][0], finalArr[i][1]));
+            
         
         }
         series1.getData().add(new XYChart.Data(4.2, 193.2));
         
         XYChart.Series series2 = new XYChart.Series();
         series2.setName("line");
-        for(int i = 0; i<num; i++){
-            series2.getData().add(new XYChart.Data(Percent[i][0], Percent[i][1]));
+        for(int i = 0; i<finalArr.length; i++){
+            series2.getData().add(new XYChart.Data(finalArr[i][0], finalArr[i][1]));
         
         }
  
@@ -95,9 +151,10 @@ public class plotMaker extends Application {
    
  /**
    * This function will run the entire program, here it will run through all prefeerences that the user may want to select such as the easy or hard game mode, or the randomized words game mode, it will finally take all this, store it in a 2d array with the score and the rounds, and run the plot graph function along with the correaltion function to label the plot
+ * @throws IOException
    * 
    */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         MemoryGameGUI GUI = new MemoryGameGUI();
         GUI.SpeedmeterProject();
         
@@ -283,11 +340,16 @@ public class plotMaker extends Application {
 
                 }
                 Percent = mutliArr;
+                
+               // x.addData()
+
                 for(int i = 0; i < counter; i++){
                     GUI.DataDisplay(i+1, mutliArr[i][0], mutliArr[i][1]);
                     
                 }
+
             }
+           
             double z = trial.Correlation(x1, newintarray);
             String end_result;
             num2 = z;
@@ -315,21 +377,95 @@ public class plotMaker extends Application {
             GUI.finalResult(end);
             num = counter;
         }
-        double[] xAxis = new double[counter];
-        double[] yAxis = new double[counter];
-        for(int i = 0; i < counter;i++){
-             Double  X =  (double) Math.round(Percent[i][0]);
-            xAxis[i] = X;
-            Double  Y =  (double) Math.round(Percent[i][1]);
-            yAxis[i] = Y;
+       
+       
+        int xnum;
+        int ynum;
+       
+        for(int  i = 0; i < Percent.length;i++){
+            xnum = Percent[i][0];
+            ynum = Percent[i][1];
+           
+		// http://textfiles.com/100/captmidn.txt
 
+		File file = new File("/Users/jaspalkhanuja/Desktop/text/Cplus.txt");
+		Scanner scan = new Scanner(file);
+        
+		String fileContent = "X: "+xnum+", Y: "+ynum+",";
+		while (scan.hasNextLine()) {
+			fileContent = fileContent.concat(scan.nextLine() + "\n");
+		}
+        
+		FileWriter writer = new FileWriter("/Users/jaspalkhanuja/Desktop/text/Cplus.txt");
+        BufferedWriter writer2 = new BufferedWriter(writer);
+		writer2.newLine();
+        writer2.write(fileContent);
+		writer2.close();
+        File file2 = new File("/Users/jaspalkhanuja/Desktop/text/Cplus.txt");
+        Scanner sc = new Scanner(file2);
+        int arrsize = 0;
+        while (sc.hasNextLine()){
+            arrsize++;
+          System.out.println(sc.nextLine());
         }
         
+       
+        System.out.println(arrsize);
+        sc.close();
+
+        //int[][] arr = new int[arrsize][2];
+       
+        Scanner sc2 = new Scanner(file2);
+        int[][] arr2 = new int[arrsize][2];
+        String temp;
+        int i2 =0;
+        int ix = 0;
+        int j = 0;
+        while(sc2.hasNextLine()){
+          
+          temp = sc2.nextLine();
+          if((i2!=0)){
+            arr2[ix][j] = isolateNum(temp, j);
+            j++;
+            arr2[ix][j] = isolateNum(temp, j);
+          j--;
+          ix++;
+          }
+
+          i2++;
+          //arr[i][j] = 
+          //System.out.println(sc2.nextLine());
+        }
+        textArr = arr2;
+        sc2.close();
         
-        LinearRegression line  = new LinearRegression(xAxis, yAxis);
+        /*
+        for(int z = 0; z < arr.length;z++){
+          for(int p = 0; p < arr[0].length;p++){
+             System.out.println(arr[z][p]);
+          }
+        }*/
+        }
+        
+        int totalLen = textArr.length;
+        int finalArray[][] = new int[totalLen][2];
+        finalArray = textArr;
+        double[] xAxis2 = new double[finalArray.length];
+        double[] yAxis2 = new double[finalArray.length];
+        for(int  i =0;i < finalArray.length; i++){
+            xAxis2[i] = (double) Math.round(finalArray[i][0]);
+            yAxis2[i] = (double) Math.round(finalArray[i][0]);
+
+        }
+        finalArr = finalArray;
+        
+        LinearRegression line  = new LinearRegression(xAxis2, yAxis2);
         slope = line.slope();
         intercept = line.intercept();
         launch(args);
+        //ReadFromFileUsingScanner adder = new ReadFromFileUsingScanner();
+        
+       
     }
        
        

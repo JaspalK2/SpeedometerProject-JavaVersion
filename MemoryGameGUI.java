@@ -165,7 +165,7 @@ public class MemoryGameGUI extends JFrame
   }
   public String seeData(){
     JFrame frame = new JFrame();
-    String seq = JOptionPane.showInputDialog(frame, "Do you have an additional Data set?(y/n): ");
+    String seq = JOptionPane.showInputDialog(frame, "Do you Want to see your data?(y/n): ");
     //int num = Integer.parseInt(seq);
      return seq;
   }
