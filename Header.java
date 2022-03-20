@@ -18,10 +18,19 @@ public class Header {
     private Double mIdealSpeed = 0.0;
     private Double mNumberOfTime;
     private Double x;
+    private int driveDuration;
+    private int[] speedIntervals;
+    
     Header(){
         mNumValues = 0;
         mTotal = 0.0;
         mAverage = 0.0;
+    }
+    public void setDriveDuration(int n){
+        driveDuration = n;
+    }
+    public int getDriveDuration(){
+        return driveDuration;
     }
     public void setNumValues(int x){
         mNumValues = x;
@@ -45,6 +54,9 @@ public class Header {
     }
     public double return_percent(){
         return mPercent;
+    }
+    public int[] getSpeedData(){
+        return speedIntervals;
     }
 
     public void arrayMaker(){
@@ -95,10 +107,15 @@ public class Header {
             value++;
             
         }
-        System.out.println(" --------------------------------------------------------------------------------------------");
+        //System.out.println(" --------------------------------------------------------------------------------------------");
         for(int total = 0; total <= z; total++){
             mTotal += speed[total];
         }
+         int[] speedinterval2 = new int[speed.length];
+        for(int p = 0;  p < speed.length;p++){
+            speedinterval2[p] =  (int) Math.round(speed[p]);
+        }
+        speedIntervals = speedinterval2;
         
         String p;
         //cout<<"Where there different speed limits?: ";
@@ -227,6 +244,7 @@ public class Header {
         
         
     }
+
     public void EndResult(){
         MemoryGameGUI y = new MemoryGameGUI();
         System.out.println("");

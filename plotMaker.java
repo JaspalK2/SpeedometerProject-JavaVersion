@@ -21,7 +21,8 @@ import java.util.*;
  
  
 public class plotMaker extends Application {
-   public static int[][] textArr;
+    public static int[][] speedDuration;
+    public static int[][] textArr;
     public static int[][] Percent;
     public static int[][] finalArr; 
     public static int num;
@@ -127,22 +128,29 @@ public class plotMaker extends Application {
         sc.setTitle("Drive  Vs. Percent Efficiency, Correlation(R): "+ String.format("%.2f", num2)+", Linear Regression Line: "+ String.format("%.2f", slope)+"X +  "+String.format("%.2f", intercept));
        
         XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Total Score Vs. Total Round Points");
+        series1.setName("Duration of Different Drives Vs. Percent Accuracy");
         for(int i = 0; i<finalArr.length; i++){
             series1.getData().add(new XYChart.Data(finalArr[i][0], finalArr[i][1]));
             
         
         }
-        series1.getData().add(new XYChart.Data(4.2, 193.2));
+        //series1.getData().add(new XYChart.Data(4.2, 193.2));
+       
         
+        int index = 0;
         XYChart.Series series2 = new XYChart.Series();
-        series2.setName("line");
-        for(int i = 0; i<finalArr.length; i++){
-            series2.getData().add(new XYChart.Data(finalArr[i][0], finalArr[i][1]));
+        
+        series2.setName("Scatter points on recorded speeds from the recently added data sets");
+        int index2 =1;
+        for(int i = 0; i<speedDuration.length; i++){
+            for(int p = 0; p < speedDuration[i].length;p++){
+                  series2.getData().add(new XYChart.Data((index2), speedDuration[i][p]));
+                  index2++;
+            }
         
         }
  
-        sc.getData().addAll(series1);
+        sc.getData().addAll(series1, series2);
         
         Scene scene  = new Scene(sc, 800, 600);
         stage.setScene(scene);
@@ -165,6 +173,7 @@ public class plotMaker extends Application {
         int lenght;
         
         lenght =  GUI.DriveDuration();
+
         
          
          
@@ -177,7 +186,7 @@ public class plotMaker extends Application {
        
         x= x*52.0;
         miles.setGasStation(x/5);
-        
+        miles.setDriveDuration(lenght);
         miles.setNumValues(n);
         miles.arrayMaker();
         miles.AverageEvaluator();
@@ -186,6 +195,8 @@ public class plotMaker extends Application {
         double current_percent;
         current_percent = miles.return_percent();
         double current_amount = miles.return_amount();
+        int currentDuration = miles.getDriveDuration();
+        int[] currentSpeedVal = miles.getSpeedData();
         
         boolean condition = true;
         
@@ -197,7 +208,7 @@ public class plotMaker extends Application {
         System.out.println("");
         
         String response = GUI.additionalSet();
-        /*
+        /* 
         System.out.println(" --------------------------------------------------------------------------------------------");
         System.out.println("                       Do you have an additional data set?(y/n): \n"+
         "                                                   ");*/
@@ -216,8 +227,12 @@ public class plotMaker extends Application {
         }
         Double[] data = new Double[100];
         Double[] data1 = new Double[100];
+        int[] data2 = new int[100];
+        int[][] data3 = new int[100][];
         data[0] = current_percent;
         data1[0] = current_amount;
+        data2[0] = currentDuration;
+        data3[0] = currentSpeedVal; 
         int  counter   =1;
         
         while(condition == true){
@@ -228,7 +243,7 @@ public class plotMaker extends Application {
             int lenght2;
             System.out.println("");
            lenght2 =  GUI.DriveDuration();
-       
+            miles2.setDriveDuration(lenght2);
           
            
            
@@ -248,8 +263,12 @@ public class plotMaker extends Application {
             miles2.EndResult();
             double new_data  =  miles2.return_percent();
             double new_data1= miles2.return_amount();
+            int new_data2 = miles2.getDriveDuration();
+            int[] speed = miles2.getSpeedData();
             data[counter] = new_data;
             data1[counter] = new_data1;
+            data2[counter] = new_data2;
+            data3[counter] =speed;
             counter++;
             String response2 = GUI.additionalSet();
             
@@ -278,6 +297,15 @@ public class plotMaker extends Application {
         for(int i = 0; i < counter; i++){
                 newarray1[i] = data1[i];
         }
+        int[] newArray2 = new int[counter];
+        for(int i = 0; i < counter; i++){
+            newArray2[i] = data2[i];
+       } 
+       int[][] NewSpeed = new int[counter][];
+       for(int i = 0; i < counter;i++){
+           NewSpeed[i] = data3[i];
+       }
+
         /**(
            HERE IS WHERE THE ARRAY "newarray" contains both the exact size and the data values
          */
@@ -325,7 +353,7 @@ public class plotMaker extends Application {
             String choice;
            
             choice = GUI.seeData();
-           
+            speedDuration = NewSpeed;
             if(choice.equals("y")){
              
                 
@@ -333,7 +361,7 @@ public class plotMaker extends Application {
                 // { , }, { , }
                 int yiteration = 0;
                 for(int i = 0; i < counter; i++){
-                    mutliArr[i][yiteration]= x1[i];
+                    mutliArr[i][yiteration]= newArray2[i];
                     yiteration ++;
                     mutliArr[i][yiteration] = newintarray[i];
                     yiteration = 0;
