@@ -164,6 +164,7 @@ public class plotMaker extends Application {
    */
     public static void main(String[] args) throws IOException {
         MemoryGameGUI GUI = new MemoryGameGUI();
+       
         GUI.SpeedmeterProject();
         
         

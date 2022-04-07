@@ -11,6 +11,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * Class to play Memory Game.
@@ -49,6 +50,23 @@ public class MemoryGameGUI extends JFrame
    * @param playRandom If true, during play, the buttons will display text in a random order,
    *          if false, they will show from left to right.
    */
+  private ArrayList<String> gfg1 = new ArrayList<String>();
+  private ArrayList<Double> gfg = new ArrayList<Double>();
+  private Double stateNum;
+  public Double getStateNum(){
+    return stateNum;
+  }
+  
+  public ArrayList<Double> returnList(){
+    return gfg;
+  }
+  private int index;
+  public void setIndex(int n){
+    index = n;
+  }
+  public int getIndex(){
+    return index;
+  }
   public void createBoard(int numButtons, Boolean playRandom)
   {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,6 +180,34 @@ public class MemoryGameGUI extends JFrame
     String seq = JOptionPane.showInputDialog(frame, "Do you have an additional Data set?(y/n): ");
     //int num = Integer.parseInt(seq);
      return seq;
+  }
+  private String stateName;
+ 
+  private int index1 = 0;
+  
+  public Double SetState(){
+    JFrame frame = new JFrame();
+    String seq = JOptionPane.showInputDialog(frame, "Before you are provided an end result, please type out a State in the US that you drive in(by its full name): ");
+    seq = seq.replace(" ", "");
+    Reader x = new Reader();
+    gfg1 = x.myNumbers_Percent_State_names();
+    gfg = x.myNumbers2_Percent_State_numbers();
+    int index=0;
+    for(int i = 0; i < gfg1.size();i++){
+      String S = gfg1.get(i);
+      S = S.replace(" ", "");
+      if(S.equals(seq)){
+          index = i;
+          stateName = gfg1.get(i);
+      }
+    }
+   
+
+    //int num = Integer.parseInt(seq);
+     return gfg.get(index);
+  }
+  public String GetState(){
+    return stateName;
   }
   public String seeData(){
     JFrame frame = new JFrame();

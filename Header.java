@@ -246,6 +246,10 @@ public class Header {
     }
 
     public void EndResult(){
+        MemoryGameGUI GUI = new MemoryGameGUI();
+          Double x4 = GUI.SetState();
+          String stateName = GUI.GetState();
+    //System.out.println("State Number = "+ x);
         MemoryGameGUI y = new MemoryGameGUI();
         System.out.println("");
         System.out.println("");
@@ -294,10 +298,35 @@ public class Header {
         else{
             end_result = "You could actually end up saving almost $";
         }
+        
+
+
+       double idea_speed;
+       idea_speed = x4 * mIdealSpeed;
+        double percent2;
+        if(average_speed > idea_speed){
+            percent2 = 100*(idea_speed/average_speed);
+        }
+        else{
+         percent2 = 100*(average_speed/idea_speed);
+        }
+        
+        boolean b = true;
+        while (b == true){
+        if(percent2 > 100){
+            mIsFast = true;
+            percent2 -=100;
+        }
+        else{
+            b= false;
+        }
+        }
         String endResult = "The end result is that you had an average speed of "+average_speed+" MPH, and the recommended speed for ideal \n"+
-        "gas mileage is about "+mIdealSpeed+"MPH. This leaves you with an overall fuel efficiency of about "+percent+"%. \n"
+        "gas mileage is about "+mIdealSpeed+"MPH. However, since you live in "+stateName+", the quality of the roads("+x4+"), reduces the Ideal Speed to around: "+(mIdealSpeed * x4)+ ". This leaves you with an overall fuel efficiency of about "+percent2+"%. \n"
         +end_result+" "+x;
         y.stateEndResult(endResult);
+        mPercent  = percent2;
+        
         
     }
 }
