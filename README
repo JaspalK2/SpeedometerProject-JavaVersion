@@ -23,7 +23,7 @@ Speedometer Project
 
         - Reader.java
 
-            - This file reads data from a previously added data set from the bureau of transportation. 
+            -  This file reads data from a previously added data set from the bureau of transportation. 
 
             - Currently the reader file is specifically looking for road quality percentage by each state 
 
